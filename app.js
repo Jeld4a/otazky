@@ -2,6 +2,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+const questions = [
+  { q: "2 + 2 = ?", a: "4" },
+  { q: "Hlavní město ČR?", a: "Praha" },
+  { q: "5 * 3 = ?", a: "15" },
+  { q: "Barva nebe?", a: "modrá" },
+  { q: "První měsíc roku?", a: "leden" },
+  // ...doplnit až na 30 otázek
+];
+
 // Vlož sem svou Firebase konfiguraci
 const firebaseConfig = {
   apiKey: "AIzaSyBU1LmKS9jERX_ftsYWYhzBqJUa7tcCjN4",
@@ -81,3 +90,4 @@ window.checkAnswer = async function(index) {
 };
 
 loadProgress();
+
