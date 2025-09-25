@@ -1,17 +1,7 @@
-// Firebase SDK (předpokládá, že script je vložen v HTML)
+// ===================== Firebase konfigurace =====================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-const questions = [
-  { q: "2 + 2 = ?", a: "4" },
-  { q: "Hlavní město ČR?", a: "Praha" },
-  { q: "5 * 3 = ?", a: "15" },
-  { q: "Barva nebe?", a: "modrá" },
-  { q: "První měsíc roku?", a: "leden" },
-  // ...doplnit až na 30 otázek
-];
-
-// Vlož sem svou Firebase konfiguraci
 const firebaseConfig = {
   apiKey: "AIzaSyBU1LmKS9jERX_ftsYWYhzBqJUa7tcCjN4",
   authDomain: "celorocni-hra.firebaseapp.com",
@@ -25,18 +15,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// ===================== Pole otázek =====================
+const questions = [
+  { q: "2 + 2 = ?", a: "4" },
+  { q: "Hlavní město ČR?", a: "Praha" },
+  { q: "5 * 3 = ?", a: "15" },
+  { q: "Barva nebe?", a: "modrá" },
+  { q: "První měsíc roku?", a: "leden" },
+  { q: "Kolik dní má týden?", a: "7" },
+  { q: "Jaký je největší oceán?", a: "Tichý" },
+  { q: "Hlavní město Francie?", a: "Paříž" },
+  { q: "10 / 2 = ?", a: "5" },
+  { q: "Co je H2O?", a: "voda" },
+  { q: "Kolik barev má duha?", a: "7" },
+  { q: "První písmeno abecedy?", a: "A" },
+  { q: "2 * 6 = ?", a: "12" },
+  { q: "Hlavní město Německa?", a: "Berlín" },
+  { q: "Kolik měsíců má rok?", a: "12" },
+  { q: "Jaký je český národní sport?", a: "fotbal" },
+  { q: "Slunce vychází na straně?", a: "východ" },
+  { q: "Kolik nohou má pes?", a: "4" },
+  { q: "Nejvyšší hora světa?", a: "Everest" },
+  { q: "Kolik kontinentů je na Zemi?", a: "7" },
+  { q: "Jak se jmenuje český prezident?", a: "Petr Pavel" },
+  { q: "Jaký je národní symbol USA?", a: "orel" },
+  { q: "Co je 9 * 9?", a: "81" },
+  { q: "Hlavní město Itálie?", a: "Řím" },
+  { q: "Jaký je chemický symbol zlata?", a: "Au" },
+  { q: "Kolik planet je ve sluneční soustavě?", a: "8" },
+  { q: "Co je fotosyntéza?", a: "proces" },
+  { q: "Kolik sekund je v minutě?", a: "60" },
+  { q: "Hlavní město Španělska?", a: "Madrid" },
+  { q: "Jaký je nejrychlejší suchozemský zvíře?", a: "gepard" }
+];
+
+// ===================== DOM elementy =====================
 const quizDiv = document.getElementById("quiz");
 const boxesDiv = document.getElementById("boxes");
 const gameLink = document.getElementById("game-link");
 
-// Unikátní ID uživatele (pro jednoduchost: localStorage)
+// ===================== Uživatelský ID =====================
 let userId = localStorage.getItem("userId");
 if (!userId) {
   userId = "user_" + Date.now();
   localStorage.setItem("userId", userId);
 }
 
-// načtení stavu z Firestore
+// ===================== Stav otázek =====================
 let correctAnswers = Array(questions.length).fill(false);
 
 async function loadProgress() {
@@ -52,6 +77,7 @@ async function saveProgress() {
   await setDoc(doc(db, "quizProgress", userId), { correctAnswers });
 }
 
+// ===================== Vykreslení kvízu =====================
 function renderQuiz() {
   quizDiv.innerHTML = "";
   questions.forEach((item, index) => {
@@ -68,6 +94,7 @@ function renderQuiz() {
   renderBoxes();
 }
 
+// ===================== Kostičky =====================
 function renderBoxes() {
   boxesDiv.innerHTML = "";
   correctAnswers.forEach(correct => {
@@ -78,6 +105,7 @@ function renderBoxes() {
   if (correctAnswers.every(x => x)) gameLink.style.display = "block";
 }
 
+// ===================== Kontrola odpovědi =====================
 window.checkAnswer = async function(index) {
   const input = document.getElementById(`answer-${index}`);
   if (input.value.trim().toLowerCase() === questions[index].a.toLowerCase()) {
@@ -89,5 +117,5 @@ window.checkAnswer = async function(index) {
   }
 };
 
+// ===================== Spuštění =====================
 loadProgress();
-
