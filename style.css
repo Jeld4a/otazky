@@ -1,0 +1,8 @@
+body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+.question { margin-bottom: 15px; }
+.question input { margin-left: 10px; }
+.correct-boxes { margin-top: 20px; }
+.box { display: inline-block; width: 20px; height: 20px; background: gray; margin-right: 5px; border-radius: 4px; }
+.box.correct { background: green; }
+#game-link { display: none; margin-top: 20px; font-size: 1.2em; color: blue; text-decoration: underline; }
+button { margin-left: 10px; cursor: pointer; }
